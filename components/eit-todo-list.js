@@ -21,28 +21,21 @@ export class EitTodoList extends LitElement {
   ];
 
   static properties = {
-    loggedIn: { type: Boolean },
-    role: { type: String },
+    completed: { type: Boolean },
   };
 
   constructor() {
     super();
-    this.loggedIn = false;
-    this.role = "premium";
+    this.completed = false;
   }
 
   render() {
     return html`
-      <button @click="${this.changeLoggedIn}">Cambiar logueado</button>
-      ${this.loggedIn
-        ? html`
-            ${this.headingTemplate}
-            <eit-todo-search></eit-todo-search>
-            ${this.bodyTemplate}
-            ${this.sayHello(this.role)}
-          `
-        : "No estoy logueado"
-    }
+      <button @click="${this.changeCompleted}">Cambiar completado</button>
+
+      ${this.headingTemplate}
+      <eit-todo-search></eit-todo-search>
+      ${this.bodyTemplate} 
     `;
   }
 
@@ -51,32 +44,17 @@ export class EitTodoList extends LitElement {
   }
 
   get bodyTemplate() {
-    return html` <div>${icons.done}</div> `;
-  }
-
-  changeLoggedIn() {
-    this.loggedIn = !this.loggedIn;
-  }
-
-  sayHello(role) {
-    switch(role) {
-        case 'administrator':
-            return html`<p>Hola administrador</p>`;
-        case 'premium':
-            return this.userPremiumTemplate;
-        default:
-            return "Hola desconocido";
-    }
-  }
-
-  get userPremiumTemplate() {
     return html`
-        <p>Este es el menú para el usuario premium</p>
-        <ul>
-            <li>Acceso a todo el contenido uno</li>
-            <li>Acceso a todo el contenido dos</li>
-        </ul>
-    `;
+        <div>
+            ${this.completed 
+                ? icons.done
+                : icons.fiber_manual_record
+            }     
+        </div> `;
+  }
+
+  changeCompleted() {
+    this.completed = !this.completed;
   }
 }
 customElements.define("eit-todo-list", EitTodoList);
