@@ -17,16 +17,44 @@ export class EitTodoList extends LitElement {
         background-color: #eee;
         padding: 1rem;
       }
+      ul {
+          margin: 1rem 0;
+          padding: 0;
+      }
+        li {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            margin-bottom: 0.8rem;
+        }
+        li spam {
+            margin-left: 0.5rem;
+        }
     `,
   ];
 
   static properties = {
     completed: { type: Boolean },
+    todos: { type: Array },
   };
 
   constructor() {
     super();
     this.completed = false;
+    this.todos = [
+      {
+        title: "Hacer ejercicio",
+        completed: false,
+      },
+      {
+        title: "Comprar comida",
+        completed: false,
+      },
+      {
+        title: "Lavar ropa",
+        completed: true,
+      },
+    ];
   }
 
   render() {
@@ -45,12 +73,18 @@ export class EitTodoList extends LitElement {
 
   get bodyTemplate() {
     return html`
-        <div>
-            ${this.completed 
-                ? icons.done
-                : icons.fiber_manual_record
-            }     
-        </div> `;
+      <ul>
+        ${this.todos.map(
+          (todo) => html`
+            <li>
+                ${todo.completed ? icons.done : icons.fiber_manual_record} 
+                <spam>${todo.title}</spam>
+            </li>
+          `
+        )}
+      </ul>
+      <div></div>
+    `;
   }
 
   changeCompleted() {
